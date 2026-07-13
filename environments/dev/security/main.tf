@@ -18,5 +18,5 @@ module "security_group" {
   environment  = var.environment
 
   vpc_id = data.terraform_remote_state.networking.outputs.vpc_id
-  
+
 }
