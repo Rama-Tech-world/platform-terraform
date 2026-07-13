@@ -19,9 +19,9 @@ output "private_db_subnet_ids" {
 }
 
 output "nat_gateway_id" {
-  value = module.vpc.nat_gateway_id
+  value = aws_nat_gateway.this.id
 }
 
 output "internet_gateway_id" {
-  value = module.vpc.internet_gateway_id
+  value = aws_internet_gateway.this.id
 }
