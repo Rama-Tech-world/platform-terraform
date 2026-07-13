@@ -1,9 +1,13 @@
-name: security
+name: Terraform Security
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'environments/dev/security/**'
+      - 'modules/security-group/**'
+      - '.github/workflows/security.yml'
 
 permissions:
   id-token: write

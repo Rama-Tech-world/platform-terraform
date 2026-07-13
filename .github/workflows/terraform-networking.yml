@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'environments/dev/networking/**'
+      - 'modules/vpc/**'
+      - '.github/workflows/networking.yml'
 
 permissions:
   id-token: write
