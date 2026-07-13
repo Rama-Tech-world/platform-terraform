@@ -28,5 +28,5 @@ private_db_subnet_cidrs = [
   "10.0.128.0/20"
 ]
 
-enable_flow_logs  = true
+enable_flow_logs   = true
 single_nat_gateway = true
