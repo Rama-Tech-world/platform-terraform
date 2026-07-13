@@ -1,4 +1,4 @@
-name: Terraform Networking
+name: security
 
 on:
   push:
