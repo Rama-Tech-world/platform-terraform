@@ -27,7 +27,7 @@ resource "aws_subnet" "public" {
     {
       Name = "${local.name_prefix}-public-${count.index + 1}"
 
-      "kubernetes.io/role/elb" = "1"
+      "kubernetes.io/role/elb"                     = "1"
       "kubernetes.io/cluster/${local.name_prefix}" = "shared"
     }
   )
@@ -46,7 +46,7 @@ resource "aws_subnet" "private_app" {
     {
       Name = "${local.name_prefix}-private-app-${count.index + 1}"
 
-      "kubernetes.io/role/internal-elb" = "1"
+      "kubernetes.io/role/internal-elb"            = "1"
       "kubernetes.io/cluster/${local.name_prefix}" = "shared"
     }
   )
