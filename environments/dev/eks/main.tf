@@ -20,4 +20,5 @@ module "eks" {
   node_security_group_id = data.terraform_remote_state.security.outputs.eks_node_sg_id
 
   kms_key_arn = data.terraform_remote_state.kms.outputs.kms_key_arn
+  
 }

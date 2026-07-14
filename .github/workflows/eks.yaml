@@ -1,0 +1,53 @@
+name: Terraform EKS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'environments/dev/eks/**'
+      - 'modules/eks/**'
+      - '.github/workflows/eks.yml'
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: eu-north-1
+  TF_WORKING_DIR: environments/dev/eks
+
+jobs:
+  terraform:
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::219834006508:role/GitHubTerraformRole
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan -input=false
