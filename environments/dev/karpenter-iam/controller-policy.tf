@@ -9,6 +9,17 @@ resource "aws_iam_policy" "karpenter_controller" {
     Statement = [
 
       {
+        Sid    = "AllowEKSDescribeCluster"
+        Effect = "Allow"
+
+        Action = [
+          "eks:DescribeCluster"
+        ]
+
+        Resource = "arn:aws:eks:${var.aws_region}:${data.aws_caller_identity.current.account_id}:cluster/${var.project_name}-${var.environment}"
+      },
+
+      {
         Sid    = "AllowEC2Read"
         Effect = "Allow"
 
@@ -23,7 +34,8 @@ resource "aws_iam_policy" "karpenter_controller" {
           "ec2:DescribeSubnets",
           "ec2:DescribeSpotPriceHistory",
           "ec2:DescribeVolumes",
-          "ec2:DescribeVpcs"
+          "ec2:DescribeVpcs",
+          "ec2:DescribeTags"
         ]
 
         Resource = "*"
@@ -36,7 +48,8 @@ resource "aws_iam_policy" "karpenter_controller" {
         Action = [
           "ec2:RunInstances",
           "ec2:CreateLaunchTemplate",
-          "ec2:CreateFleet"
+          "ec2:CreateFleet",
+          "ec2:CreateTags"
         ]
 
         Resource = "*"
@@ -85,6 +98,20 @@ resource "aws_iam_policy" "karpenter_controller" {
         ]
 
         Resource = "*"
+      },
+
+      {
+        Sid    = "AllowSQS"
+        Effect = "Allow"
+
+        Action = [
+          "sqs:DeleteMessage",
+          "sqs:GetQueueAttributes",
+          "sqs:GetQueueUrl",
+          "sqs:ReceiveMessage"
+        ]
+
+        Resource = "arn:aws:sqs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:${var.project_name}-${var.environment}"
       }
     ]
   })
