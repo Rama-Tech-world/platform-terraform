@@ -2,20 +2,20 @@ resource "aws_iam_policy" "karpenter_controller" {
   name = "${var.project_name}-${var.environment}-karpenter-controller-policy"
 
   policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [
       {
-        Sid      = "AllowEKSRead"
-        Effect   = "Allow"
-        Action   = [
+        Sid    = "AllowEKSRead"
+        Effect = "Allow"
+        Action = [
           "eks:DescribeCluster"
         ]
         Resource = "*"
       },
       {
-        Sid      = "AllowEC2Read"
-        Effect   = "Allow"
-        Action   = [
+        Sid    = "AllowEC2Read"
+        Effect = "Allow"
+        Action = [
           "ec2:DescribeAvailabilityZones",
           "ec2:DescribeImages",
           "ec2:DescribeInstances",
@@ -33,9 +33,9 @@ resource "aws_iam_policy" "karpenter_controller" {
         Resource = "*"
       },
       {
-        Sid      = "AllowEC2Provisioning"
-        Effect   = "Allow"
-        Action   = [
+        Sid    = "AllowEC2Provisioning"
+        Effect = "Allow"
+        Action = [
           "ec2:RunInstances",
           "ec2:CreateFleet",
           "ec2:CreateLaunchTemplate",
@@ -46,30 +46,59 @@ resource "aws_iam_policy" "karpenter_controller" {
         Resource = "*"
       },
       {
-        Sid      = "AllowIAMPassRole"
-        Effect   = "Allow"
-        Action   = [
+        Sid    = "AllowIAMPassRole"
+        Effect = "Allow"
+        Action = [
           "iam:PassRole"
         ]
         Resource = aws_iam_role.karpenter_node.arn
       },
       {
-        Sid      = "AllowSSM"
-        Effect   = "Allow"
-        Action   = [
+        Sid    = "AllowSSM"
+        Effect = "Allow"
+        Action = [
           "ssm:GetParameter",
           "ssm:GetParameters"
         ]
         Resource = "*"
       },
       {
-        Sid      = "AllowPricing"
-        Effect   = "Allow"
-        Action   = [
+        Sid    = "AllowPricing"
+        Effect = "Allow"
+        Action = [
           "pricing:GetProducts"
         ]
         Resource = "*"
+      },
+
+      {
+        Sid    = "AllowIAMRead"
+        Effect = "Allow"
+
+        Action = [
+          "iam:GetRole",
+          "iam:ListInstanceProfiles",
+          "iam:ListInstanceProfilesForRole"
+        ]
+
+        Resource = "*"
+      },
+      {
+        Sid    = "AllowInstanceProfileManagement"
+        Effect = "Allow"
+
+        Action = [
+          "iam:GetInstanceProfile",
+          "iam:CreateInstanceProfile",
+          "iam:DeleteInstanceProfile",
+          "iam:AddRoleToInstanceProfile",
+          "iam:RemoveRoleFromInstanceProfile",
+          "iam:TagInstanceProfile"
+        ]
+
+        Resource = "*"
       }
+
     ]
   })
 }
