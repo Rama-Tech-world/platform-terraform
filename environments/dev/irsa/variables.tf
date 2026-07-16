@@ -10,6 +10,7 @@ variable "cluster_version" {
   type = string
 }
 
+
 variable "aws_region" {
   type = string
 }
